@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan("com.young")
+@ComponentScan(basePackages = {"com.young"})
 @MapperScan("com.young.educms.mapper")
 public class CmsApplication {
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package com.young.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.young.eduservice.entity.EduCourse;
 import com.young.eduservice.entity.EduCourseDescription;
 import com.young.eduservice.entity.vo.CourseInfoVo;
@@ -14,7 +15,10 @@ import com.young.servicebase.exceptionhandler.GuliException;
 import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -104,5 +108,15 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         if(result == 0) {
             throw new GuliException(20001,"删除课程失败");
         }
+    }
+
+    @Cacheable(key = "'selectTeacherList'",value = "course")
+    @Override
+    public List<EduCourse> getHotCourse() {
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("id");
+        wrapper.last("limit 8");
+        List<EduCourse> eduList = baseMapper.selectList(wrapper);
+        return eduList;
     }
 }
