@@ -6,6 +6,7 @@ import com.young.eduservice.entity.EduCourse;
 import com.young.eduservice.entity.EduCourseDescription;
 import com.young.eduservice.entity.EduTeacher;
 import com.young.eduservice.entity.frontvo.CourseFrontVo;
+import com.young.eduservice.entity.frontvo.CourseWebVo;
 import com.young.eduservice.entity.vo.CourseInfoVo;
 import com.young.eduservice.entity.vo.CoursePublishVo;
 import com.young.eduservice.mapper.EduCourseMapper;
@@ -166,5 +167,11 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         map.put("hasPrevious", hasPrevious);
 
         return map;
+    }
+
+    @Override
+    public CourseWebVo getBaseCourseInfo(String courseId) {
+
+        return baseMapper.getBaseCourseInfo(courseId);
     }
 }
