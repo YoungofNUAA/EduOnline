@@ -2,10 +2,12 @@ package com.young.educenter.controller;
 
 
 import com.young.commonutils.JwtUtils;
+import com.young.commonutils.orderVo.UcenterMemberOrder;
 import com.young.commonutils.R;
 import com.young.educenter.entity.UcenterMember;
 import com.young.educenter.entity.vo.RegisterVo;
 import com.young.educenter.service.UcenterMemberService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +49,15 @@ public class UcenterMemberController {
         String memberId = JwtUtils.getMemberIdByJwtToken(request);
         UcenterMember member = memberService.getById(memberId);
         return R.ok().data("userInfo",member);
+    }
+
+    //根据用户ID获取用户信息
+    @PostMapping("getUserInfoOrder/{id}")
+    public UcenterMemberOrder getUserInfoOrder(@PathVariable String id){
+        UcenterMember member = memberService.getById(id);
+        UcenterMemberOrder ucenterMemberOrder = new UcenterMemberOrder();
+        BeanUtils.copyProperties(member,ucenterMemberOrder);
+        return ucenterMemberOrder;
     }
 
 }
