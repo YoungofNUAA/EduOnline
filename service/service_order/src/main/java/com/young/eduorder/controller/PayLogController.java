@@ -30,6 +30,7 @@ public class PayLogController {
     public R createNative(@PathVariable String orderNo){
 
         Map map = payLogService.createNative(orderNo);
+        System.out.println("********生成二维码************"+map);
         return R.ok().data(map);
     }
 
@@ -41,12 +42,12 @@ public class PayLogController {
         if(map==null){
             return R.error().message("支付出错了");
         }
-
+        System.out.println("**************"+map);
         if(map.get("trade_state").equals("SUCCESS")){
             payLogService.updateOrderStatus(map);
             return R.ok().message("支付成功");
         }
-        return R.ok().message("支付中");
+        return R.ok().code(25000).message("支付中");
     }
 }
 

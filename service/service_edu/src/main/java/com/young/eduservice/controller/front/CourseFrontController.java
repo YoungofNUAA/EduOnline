@@ -2,8 +2,10 @@ package com.young.eduservice.controller.front;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.young.commonutils.JwtUtils;
 import com.young.commonutils.R;
 import com.young.commonutils.orderVo.CourseWebVoOrder;
+import com.young.eduservice.client.OrdersClient;
 import com.young.eduservice.entity.EduCourse;
 import com.young.eduservice.entity.EduTeacher;
 import com.young.eduservice.entity.chapter.ChapterVo;
@@ -17,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +34,9 @@ public class CourseFrontController {
     @Autowired
     private EduChapterService chapterService;
 
+    @Autowired
+    private OrdersClient ordersClient;
+
     //条件查询带分页
     @PostMapping("getFrontCourseList/{page}/{limit}")
     public R getFrontCourseList(@PathVariable long page, @PathVariable long limit, @RequestBody(required = false) CourseFrontVo courseFrontVo){
@@ -41,12 +47,13 @@ public class CourseFrontController {
 
     //课程详情
     @GetMapping("getFrontCourseInfo/{courseId}")
-    public R getFrontCourseInfo(@PathVariable String courseId){
+    public R getFrontCourseInfo(@PathVariable String courseId, HttpServletRequest request){
         CourseWebVo courseWebVo = courseService.getBaseCourseInfo(courseId);
 
         List<ChapterVo> chapterVideoList = chapterService.getChapterVideoByCourseId(courseId);
+        boolean buyCourse = ordersClient.isBuyCourse(courseId, JwtUtils.getMemberIdByJwtToken(request));
 
-        return R.ok().data("courseWebVo",courseWebVo).data("chapterVideoList",chapterVideoList);
+        return R.ok().data("courseWebVo",courseWebVo).data("chapterVideoList",chapterVideoList).data("isBuy",buyCourse);
     }
 
     //根据课程id查询课程信息
