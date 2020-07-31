@@ -8,6 +8,7 @@
 <!--        <module>service_edu</module>-->
         <module>common</module>
         <module>service_cms</module>
+        <module>infrastructure</module>
         <!--        <module>service_base</module>-->
 <!--        <module>service_base</module>-->
 <!--        <module>service_vod</module>-->
