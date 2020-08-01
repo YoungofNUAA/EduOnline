@@ -1,9 +1,9 @@
 package com.young.aclservice.controller;
 
 
-import com.atguigu.aclservice.entity.Permission;
-import com.atguigu.aclservice.service.PermissionService;
-import com.atguigu.commonutils.R;
+import com.young.aclservice.entity.Permission;
+import com.young.aclservice.service.PermissionService;
+import com.young.commonutils.R;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/acl/permission")
-//@CrossOrigin
+@CrossOrigin
 public class PermissionController {
 
     @Autowired
